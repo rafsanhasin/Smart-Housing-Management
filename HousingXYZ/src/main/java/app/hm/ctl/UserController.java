@@ -1,40 +1,79 @@
 package app.hm.ctl;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import app.hm.entity.Project;
+import app.hm.entity.LoanApplication;
+import app.hm.entity.LoanDocument;
 import app.hm.entity.User;
-import app.hm.service.ProjectService;
+import app.hm.enums.LoanStatus;
+import app.hm.repo.LoanApplicationRepository;
+import app.hm.repo.LoanDocumentRepository;
 import app.hm.service.UserService;
 
 @Controller
 public class UserController {
+	
+	@GetMapping("/")
+    public String index() {
+        return "index";
+    }
     
-	@Autowired ProjectService projectService;
 	@Autowired UserService userService;
-    
+    @Autowired LoanDocumentRepository loanDocumentRepository;
     @GetMapping("/home")
     public String userHome(Principal principal, Model model) {
+         
+        return "user-layout";
+    }
+    
+    @Autowired LoanApplicationRepository loanApplicationRepository;
+    
+    @GetMapping("/dashboard")
+    public String dashboard(Principal principal, Model model) {
         String username = principal.getName();
         User user = userService.findByUsername(username);
-        
-        // Get projects owned by user
-        List<Project> ownedProjects = projectService.getProjectsOwnedBy(user);
-        
-        // Get projects where user is a member
-        List<Project> memberProjects = projectService.getProjectsWhereMember(user);
-        
+
+        // Fetch loans
+        List<LoanApplication> applications = loanApplicationRepository.findByUser(user);
+
+        // Fetch documents for each loan
+        Map<Long, List<LoanDocument>> documentsMap = new HashMap<>();
+        for (LoanApplication loan : applications) {
+            List<LoanDocument> docs = loanDocumentRepository.findByLoanApplication(loan);
+            documentsMap.put(loan.getId(), docs);
+        }
+
+        // Stats
+        long totalApplications = applications.size();
+        long approvedApplications = applications.stream()
+                .filter(app -> app.getStatus() == LoanStatus.APPROVED).count();
+        long pendingApplications = applications.stream()
+                .filter(app -> app.getStatus() == LoanStatus.PENDING).count();
+        long rejectedApplications = applications.stream()
+                .filter(app -> app.getStatus() == LoanStatus.REJECTED).count();
+
+        // Add attributes
         model.addAttribute("user", user);
-        model.addAttribute("ownedProjects", ownedProjects);
-        model.addAttribute("memberProjects", memberProjects);
-        
-        return "user/home";
+        model.addAttribute("applications", applications);
+        model.addAttribute("documentsMap", documentsMap);
+        model.addAttribute("totalApplications", totalApplications);
+        model.addAttribute("approvedApplications", approvedApplications);
+        model.addAttribute("pendingApplications", pendingApplications);
+        model.addAttribute("rejectedApplications", rejectedApplications);
+        model.addAttribute("content", "home-dashboard");
+
+        return "user-layout";
     }
+
+
+   
+
 }

@@ -1,64 +1,122 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register - Construction PM</title>
+    <title>Register - Smart Loan Originator</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
             background: linear-gradient(135deg, #e3f2fd, #f1f8e9);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .register-card {
-            border-radius: 1.5rem;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-            background: #fff;
-            padding: 2rem;
+          /* ===== Navbar ===== */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
+
+
+        /* ===== Card ===== */
+        .register-card {
+            border-radius: 1.2rem;
+            background: #fff;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+            padding: 2rem 2.2rem;
+            transition: all 0.3s ease;
+        }
+        .register-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== Header ===== */
         .register-header {
             text-align: center;
             margin-bottom: 1.5rem;
         }
         .register-header h4 {
             font-weight: 700;
-            color: #2e7d32;
+            color: #1565c0;
         }
+        .register-header p {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* ===== Buttons ===== */
         .btn-custom {
-            background: #2e7d32;
+            background: linear-gradient(90deg, #1565c0, #1e88e5);
             color: #fff;
             font-weight: 600;
             border-radius: 50px;
-            transition: 0.3s;
+            transition: 0.3s ease;
+            border: none;
         }
         .btn-custom:hover {
-            background: #1b5e20;
+            background: linear-gradient(90deg, #0d47a1, #1565c0);
             transform: translateY(-2px);
+        }
+
+        /* ===== Inputs ===== */
+        .form-control {
+            border-radius: 50px;
+            padding: 0.65rem 1.2rem;
         }
         .form-label {
             font-weight: 500;
+            color: #0d47a1;
         }
+
+        /* ===== Links ===== */
         .text-link {
-            color: #2e7d32;
+            color: #1565c0;
             font-weight: 500;
             text-decoration: none;
         }
         .text-link:hover {
             text-decoration: underline;
         }
+
+        /* ===== Alert ===== */
+        .alert-success {
+            background: #e8f5e9;
+            border: 1px solid #81c784;
+            color: #2e7d32;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 576px) {
+            .register-card {
+                padding: 1.5rem;
+            }
+        }
     </style>
 </head>
+
 <body>
+	<!-- ======= Navbar ======= -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">💰 Smart Loan Originator</a>
+            <div class="d-flex">
+                <a href="/login" class="btn btn-outline-primary me-2">Login</a>
+                <a href="/register" class="btn btn-primary">Register</a>
+            </div>
+        </div>
+    </nav>
     <div class="container d-flex align-items-center justify-content-center vh-100">
         <div class="col-md-6 col-lg-5">
             <div class="register-card">
                 
                 <!-- Header -->
                 <div class="register-header">
-                    <h4>Create Your Account</h4>
-                    <p class="text-muted">Sign up to access Construction PM</p>
+                    <h4><i class="bi bi-person-plus-fill text-primary"></i> Create Your Account</h4>
+                    <p>Join Smart Loan Originator to manage your loan applications easily.</p>
                 </div>
 
+                <!-- Form -->
                 <form th:action="@{/register}" th:object="${user}" method="post">
                     
                     <!-- Success message -->
@@ -68,62 +126,49 @@
 
                     <!-- Username -->
                     <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control rounded-pill" id="username" 
-                               th:field="*{username}" required>
-                        <div th:if="${#fields.hasErrors('username')}" class="text-danger small">
-                            <span th:errors="*{username}">Username error</span>
-                        </div>
+                        <label class="form-label">Username</label>
+                        <input type="text" th:field="*{username}" class="form-control" placeholder="Enter username" required>
+                        <div th:if="${#fields.hasErrors('username')}" class="text-danger small" th:errors="*{username}"></div>
                     </div>
 
                     <!-- Email -->
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" class="form-control rounded-pill" id="email" 
-                               th:field="*{email}" required>
-                        <div th:if="${#fields.hasErrors('email')}" class="text-danger small">
-                            <span th:errors="*{email}">Email error</span>
-                        </div>
+                        <label class="form-label">Email Address</label>
+                        <input type="email" th:field="*{email}" class="form-control" placeholder="Enter email" required>
+                        <div th:if="${#fields.hasErrors('email')}" class="text-danger small" th:errors="*{email}"></div>
                     </div>
 
                     <!-- Password -->
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control rounded-pill" id="password" 
-                               th:field="*{password}" required>
-                        <div th:if="${#fields.hasErrors('password')}" class="text-danger small">
-                            <span th:errors="*{password}">Password error</span>
-                        </div>
+                        <label class="form-label">Password</label>
+                        <input type="password" th:field="*{password}" class="form-control" placeholder="Enter password" required>
+                        <div th:if="${#fields.hasErrors('password')}" class="text-danger small" th:errors="*{password}"></div>
                     </div>
 
                     <!-- Confirm Password -->
                     <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control rounded-pill" id="confirmPassword" 
-                               th:field="*{confirmPassword}" required>
-                        <div th:if="${#fields.hasErrors('confirmPassword')}" class="text-danger small">
-                            <span th:errors="*{confirmPassword}">Confirm password error</span>
+                        <label class="form-label">Confirm Password</label>
+                        <input type="password" th:field="*{confirmPassword}" class="form-control" placeholder="Re-enter password" required>
+                        <div th:if="${#fields.hasErrors('confirmPassword')}" class="text-danger small" th:errors="*{confirmPassword}"></div>
+                    </div>
+
+                    <!-- Name -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text" th:field="*{firstName}" class="form-control" placeholder="First name">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" th:field="*{lastName}" class="form-control" placeholder="Last name">
                         </div>
                     </div>
 
-                    <!-- First Name -->
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control rounded-pill" id="firstName" 
-                               th:field="*{firstName}">
-                    </div>
-
-                    <!-- Last Name -->
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control rounded-pill" id="lastName" 
-                               th:field="*{lastName}">
-                    </div>
-
-                    <!-- Register button -->
-                    <button type="submit" class="btn btn-custom w-100 py-2">Register</button>
+                    <!-- Register Button -->
+                    <button type="submit" class="btn btn-custom w-100 py-2 mt-2">Register</button>
                 </form>
 
+                <!-- Footer -->
                 <div class="mt-4 text-center">
                     <span class="text-muted">Already have an account?</span>
                     <a th:href="@{/login}" class="text-link">Login here</a>
