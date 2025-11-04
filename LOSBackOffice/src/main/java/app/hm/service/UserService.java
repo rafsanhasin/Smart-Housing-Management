@@ -30,14 +30,5 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent();
     }
     
-    public User registerUser(UserRegistrationDto registrationDto) {
-        User user = new User();
-        user.setUsername(registrationDto.getUsername());
-        user.setEmail(registrationDto.getEmail());
-        user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
-        user.setRole(UserRole.USER);
-        user.setActive(true);
-        
-        return userRepository.save(user);
-    }
+   
 }

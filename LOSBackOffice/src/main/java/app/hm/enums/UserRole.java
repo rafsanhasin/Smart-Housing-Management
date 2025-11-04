@@ -1,5 +1,8 @@
 package app.hm.enums;
 
 public enum UserRole {
-    ADMIN, USER, MANAGER
+	 LOAN_OFFICER,
+	    MANAGER,
+	    REGIONAL_MANAGER,
+	    ADMIN
 }

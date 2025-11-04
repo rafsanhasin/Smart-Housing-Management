@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🏦 Smart LOS - Customer Portal</title>
+  <title>🏛 Smart LOS - Office Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Bootstrap & Icons -->
@@ -14,7 +14,7 @@
       height: 100%;
       margin: 0;
       font-family: "Segoe UI", sans-serif;
-      background-color: #f4f6f8;
+      background-color: #f5f7fa;
     }
 
     body {
@@ -32,15 +32,16 @@
 
     /* SIDEBAR */
     #sidebar {
-      width: 240px;
-      background: linear-gradient(180deg, #00695c, #004d40);
+      width: 250px;
+      background: linear-gradient(180deg, #0d47a1, #1565c0);
       color: #fff;
       flex-shrink: 0;
       overflow-y: auto;
       transition: all 0.3s ease;
     }
+
     #sidebar .nav-link {
-      color: #e0e0e0;
+      color: #e3f2fd;
       padding: 10px 14px;
       display: flex;
       align-items: center;
@@ -48,12 +49,14 @@
       border-radius: 6px;
       transition: background-color 0.2s ease;
     }
-    #sidebar .nav-link.active, #sidebar .nav-link:hover {
+
+    #sidebar .nav-link.active,
+    #sidebar .nav-link:hover {
       background-color: rgba(255,255,255,0.15);
       color: #fff;
     }
 
-    /* CONTENT */
+    /* CONTENT AREA */
     .content-area {
       flex-grow: 1;
       overflow-y: auto;
@@ -64,20 +67,28 @@
 
     /* FOOTER */
     footer {
-      background: #004d40;
-      color: #bdbdbd;
+      background: #0d47a1;
+      color: #e0e0e0;
       text-align: center;
       padding: 0.6rem;
       font-size: 0.9rem;
       flex-shrink: 0;
     }
 
-    /* RESPONSIVE */
+    /* NAVBAR */
+    .navbar {
+      background: #1565c0;
+    }
+    .navbar-brand {
+      font-weight: 600;
+    }
+
+    /* MOBILE SIDEBAR */
     @media (max-width: 992px) {
       #sidebar {
         position: fixed;
         top: 56px;
-        left: -240px;
+        left: -250px;
         height: calc(100vh - 56px);
         z-index: 1050;
       }
@@ -89,7 +100,7 @@
       }
     }
 
-    /* Scrollbar fix for sidebar */
+    /* Scrollbar for sidebar */
     #sidebar::-webkit-scrollbar {
       width: 6px;
     }
@@ -101,14 +112,14 @@
 </head>
 
 <body>
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container-fluid">
       <button class="btn btn-outline-light me-2 d-lg-none" id="mobileSidebarToggle">
         <i class="bi bi-list"></i>
       </button>
 
-      <a class="navbar-brand" href="/" th:text="${@environment.getProperty('app.company.name')}">🏦 Smart LOS</a>
+      <a class="navbar-brand" href="/" th:text="${@environment.getProperty('app.company.name')}">🏛 Smart LOS Office</a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
         <span class="navbar-toggler-icon"></span>
@@ -118,10 +129,11 @@
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white" href="#" id="profileMenu" data-bs-toggle="dropdown">
-              <i class="bi bi-person-circle"></i> My Account
+              <i class="bi bi-person-circle"></i> <span th:text="${session.user.name}">Officer</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Profile Settings</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock"></i> Change Password</a></li>
               <li><hr class="dropdown-divider"></li>
               <li>
                 <a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
@@ -135,28 +147,29 @@
     </div>
   </nav>
 
-  <!-- MAIN WRAPPER -->
+  <!-- ===== MAIN WRAPPER ===== -->
   <div class="main-wrapper">
     <!-- SIDEBAR -->
     <nav id="sidebar" class="p-3">
-      <h5 class="text-white mb-3"><i class="bi bi-grid-1x2-fill"></i> Dashboard</h5>
+      <h5 class="text-white mb-3"><i class="bi bi-building-gear"></i> Office Menu</h5>
       <ul class="nav flex-column">
-        <li><a class="nav-link active" th:href="@{/dashboard}"><i class="bi bi-speedometer2"></i> Home</a></li>
-        <li><a class="nav-link" th:href="@{/customer/apply-loan}"><i class="bi bi-file-earmark-plus"></i> Apply for Loan</a></li>
-        <li><a class="nav-link" th:href="@{/dashboard}"><i class="bi bi-list-task"></i> My Applications</a></li>
-        <li><a class="nav-link" th:href="@{/customer/documents}"><i class="bi bi-upload"></i> Upload Documents</a></li>
-        <li><a class="nav-link" th:href="@{/customer/status}"><i class="bi bi-bar-chart-line"></i> Application Status</a></li>
-        <li><a class="nav-link" th:href="@{/customer/support}"><i class="bi bi-chat-dots"></i> Support</a></li>
+        <li><a class="nav-link active" th:href="@{/office/dashboard}"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li><a class="nav-link" th:href="@{/office/applications/pending}"><i class="bi bi-file-earmark-text"></i> Pending Files</a></li>
+        <li><a class="nav-link" th:href="@{/office/verifications}"><i class="bi bi-person-check"></i> Verifications</a></li>
+        <li><a class="nav-link" th:href="@{/office/approvals}"><i class="bi bi-check2-circle"></i> Approvals</a></li>
+        <li><a class="nav-link" th:href="@{/office/reports}"><i class="bi bi-bar-chart-line"></i> Reports</a></li>
+        <li><a class="nav-link" th:href="@{/office/support}"><i class="bi bi-chat-dots"></i> Internal Messages</a></li>
       </ul>
     </nav>
 
-    <!-- CONTENT -->
+    <!-- ===== CONTENT ===== -->
     <main class="content-area flex-grow-1">
+      <!-- Dynamically loaded page content -->
       <div th:replace="~{${content}}"></div>
     </main>
   </div>
 
-  <!-- LOGOUT MODAL -->
+  <!-- ===== LOGOUT MODAL ===== -->
   <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0">
@@ -173,12 +186,12 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
+  <!-- ===== FOOTER ===== -->
   <footer>
-    © 2025 Smart LOS | BHBFC-ICT(Operation)
+    © 2025 Smart LOS Office Portal | BHBFC-ICT(Operation)
   </footer>
 
-  <!-- JS -->
+  <!-- ===== JS ===== -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const sidebar = document.getElementById('sidebar');
@@ -186,7 +199,7 @@
 
     mobileToggle.addEventListener('click', () => sidebar.classList.toggle('show'));
 
-    // Click outside sidebar to close (mobile)
+    // Close sidebar on outside click (mobile)
     document.addEventListener('click', (e) => {
       if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target)) {
         sidebar.classList.remove('show');
