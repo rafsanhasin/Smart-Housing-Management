@@ -1,0 +1,225 @@
+<!-- file: fragments/note-page.html -->
+<div th:fragment="notePage">
+
+    <!-- NOTE PAGE STYLES -->
+    <style>
+        /* Note-specific fonts and editor styles */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600&display=swap');
+
+        .note-editor.note-frame {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .note-toolbar {
+            background: #f1f3f4 !important;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .note-editable {
+            font-family: "Noto Sans Bengali", "Segoe UI", sans-serif;
+            min-height: 200px;
+        }
+
+        .card { border-radius: 10px; }
+        .attachment-list li { margin-bottom: 4px; font-size: 0.9rem; }
+        .forward-section { background: #eef3ff; border-radius: 8px; padding: 10px; }
+        h4 { font-weight: 700; }
+
+        /* Side by side layout */
+        .note-sidebar-wrapper {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .note-editor-column {
+            flex: 2 1 60%;
+        }
+
+        .note-sidebar-column {
+            flex: 1 1 35%;
+        }
+
+        .card-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+    </style>
+
+    <div class="container py-4">
+		 
+  
+<!-- Summernote JS in layout (once for all pages) -->
+<!-- in layout.html <head> -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+<!-- before </body> -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            placeholder: 'নতুন অফিস নোট লিখুন...',
+            height: 300,
+            lang: 'bn-BD',
+            fontNames: ['Noto Sans Bengali', 'Arial', 'Segoe UI', 'Times New Roman'],
+            fontNamesIgnoreCheck: ['Noto Sans Bengali'],
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['table', 'link', 'hr']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+    });
+</script>
+
+        <!-- HEADER -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h4 class="text-success">
+        📝 নোটিং ফাইল - আবেদনকারী: <span th:text="${app.fullName}"></span>
+    </h4>
+    <a th:href="@{/dashboard}" class="btn btn-outline-secondary btn-sm">← ব্যাক</a>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="mb-4 d-flex flex-wrap gap-2">
+
+    <!-- Application Form -->
+    <a th:href="@{/office/applications/view/{id}(id=${app.id})}" 
+       class="btn btn-primary btn-sm">
+       <i class="bi bi-file-earmark-text"></i> আবেদন ফর্ম দেখুন
+    </a>
+
+    <!-- Attachments -->
+    <a th:href="@{/office/applications/attachments/{id}(id=${app.id})}" 
+       class="btn btn-info btn-sm text-white">
+       <i class="bi bi-paperclip"></i> সংযুক্তি দেখুন
+    </a>
+
+    <!-- Loan Recommendation Report -->
+    <a th:href="@{/office/loan/recommendation/{id}(id=${app.id})}" 
+       class="btn btn-success btn-sm">
+       <i class="bi bi-bar-chart-line"></i> ঋণ সুপারিশ রিপোর্ট
+    </a>
+
+    <!-- Additional Notes -->
+    <a th:href="@{/office/notes/additional/{id}(id=${app.id})}" 
+       class="btn btn-warning btn-sm text-white">
+       <i class="bi bi-journal-plus"></i> অতিরিক্ত নোট যোগ করুন
+    </a>
+
+    <!-- Law Report -->
+    <a th:href="@{/office/reports/law/{id}(id=${app.id})}" 
+       class="btn btn-dark btn-sm text-white">
+       <i class="bi bi-gavel"></i> আইন রিপোর্ট
+    </a>
+
+    <!-- Engineering Report -->
+    <a th:href="@{/office/reports/engineering/{id}(id=${app.id})}" 
+       class="btn btn-secondary btn-sm text-white">
+       <i class="bi bi-tools"></i> প্রকৌশল রিপোর্ট
+    </a>
+
+    <!-- Verification Report (VR) -->
+    <a th:href="@{/office/reports/verification/{id}(id=${app.id})}" 
+       class="btn btn-outline-success btn-sm">
+       <i class="bi bi-check2-square"></i> ভেরিফিকেশন রিপোর্ট
+    </a>
+</div>
+
+
+        <!-- MAIN LAYOUT -->
+        <div class="note-sidebar-wrapper">
+
+            <!-- LEFT: Note Editor -->
+            <div class="note-editor-column">
+                <!-- NEW NOTE -->
+                <div th:if="${editableNote == null}">
+                    <form th:if="${#lists.isEmpty(notes) or notes[0].forwarded}" 
+                          th:action="@{/office/notes/save}" method="post">
+                        <input type="hidden" name="appId" th:value="${app.id}">
+                        <textarea id="summernote" name="content"></textarea>
+                        <div class="text-end mt-3">
+                            <button type="submit" class="btn btn-success px-4">💾 নতুন নোট সংরক্ষণ করুন</button>
+                        </div>
+                    </form>
+
+                    <div th:if="${!#lists.isEmpty(notes) and !notes[0].forwarded}" 
+                         class="alert alert-warning mt-2">
+                        ⚠️ বর্তমান নোটটি এখনো ফরওয়ার্ড করা হয়নি। নতুন নোট তৈরির আগে ফরওয়ার্ড করতে হবে।
+                    </div>
+                </div>
+
+                <!-- EDIT NOTE -->
+                <div th:if="${editableNote != null}">
+                    <form th:action="@{/office/notes/update}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" th:value="${editableNote.id}">
+                        <textarea id="summernote" name="content" th:text="${editableNote.content}"></textarea>
+
+                        <div class="mt-3">
+                            <label class="form-label fw-bold">📎 সংযুক্তি:</label>
+                            <input type="file" name="file" class="form-control form-control-sm mb-2" accept="*/*">
+                            <button type="submit" class="btn btn-success btn-sm">💾 আপডেট করুন</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RIGHT: Attachments & Existing Notes -->
+            <div class="note-sidebar-column">
+
+                <!-- Forward Section -->
+                <div th:if="${editableNote != null}" class="forward-section mb-3">
+                    <form th:action="@{/office/notes/forward/{noteId}(noteId=${editableNote.id})}" method="post" class="d-flex gap-2 align-items-center">
+                        <select name="forwardToId" class="form-select form-select-sm">
+                            <option value="">-- একজন ব্যবহারকারী নির্বাচন করুন --</option>
+                            <option th:each="u : ${users}" th:value="${u.id}" th:text="${u.username}"></option>
+                        </select>
+                        <button class="btn btn-outline-primary btn-sm">➡️ ফরওয়ার্ড</button>
+                    </form>
+                </div>
+
+                <!-- EXISTING NOTES -->
+                <div th:each="note : ${notes}" class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                        <div th:utext="${note.content}"></div>
+
+                        <p class="small text-muted mt-2">
+                            লিখেছেন: <b th:text="${note.createdBy.username}"></b> |
+                            <span th:text="${#temporals.format(note.createdAt, 'dd MMM yyyy, hh:mm a')}"></span>
+                            <span th:if="${note.forwarded}" class="badge bg-info text-dark ms-2">ফরওয়ার্ড করা হয়েছে</span>
+                        </p>
+
+                        <!-- Attachments -->
+                        <div th:if="${note.attachments != null and !note.attachments.isEmpty()}" class="mt-2">
+                            <h6 class="text-muted">📎 সংযুক্তি:</h6>
+                            <ul class="attachment-list">
+                                <li th:each="att : ${note.attachments}">
+                                    <a th:href="@{${'/'+att.filePath}}" th:text="${att.fileName}" target="_blank"></a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Signatures -->
+                        <div class="border-top pt-2 mt-2">
+                            <h6 class="text-muted">✍️ স্বাক্ষর তালিকা:</h6>
+                            <ul class="small mb-2">
+                                <li th:each="sig : ${note.signatures}" 
+                                    th:text="${sig.user.username + ' (' + #temporals.format(sig.signedAt, 'dd MMM yyyy hh:mm a') + ')'}">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
