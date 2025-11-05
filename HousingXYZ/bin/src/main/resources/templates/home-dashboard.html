@@ -1,0 +1,99 @@
+<div th:fragment="content">
+    <!-- ======= Dashboard Header ======= -->
+    <section class="dashboard-header py-4 bg-light">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-1">Welcome, <span th:text="${user.username}">User</span> 👋</h2>
+                <p class="mb-0 text-muted">Your one-stop dashboard for tracking loan applications</p>
+            </div>
+            <a th:href="@{/customer/apply-loan}" class="btn btn-success btn-lg mt-3 mt-md-0">
+                <i class="bi bi-plus-circle"></i> Apply for Loan
+            </a>
+        </div>
+    </section>
+
+    <!-- ======= Quick Stats ======= -->
+    <div class="container mt-5">
+        <div class="row g-4">
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">Total Applications</h6>
+                        <h3 class="text-primary" th:text="${totalApplications}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">Approved</h6>
+                        <h3 class="text-success" th:text="${approvedApplications}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">Pending</h6>
+                        <h3 class="text-warning" th:text="${pendingApplications}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <h6 class="text-muted">Rejected</h6>
+                        <h3 class="text-danger" th:text="${rejectedApplications}">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======= Recent Loan Applications ======= -->
+        <div class="card mt-5 shadow-sm">
+            <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap">
+                <h5 class="mb-2 mb-md-0 text-success">📋 Recent Loan Applications</h5>
+                <a th:href="@{/customer/apply-loan}" class="btn btn-sm btn-success">
+                    <i class="bi bi-plus-circle"></i> New Application
+                </a>
+            </div>
+            <div class="card-body p-0 table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Application ID</th>
+                            <th>Loan Type</th>
+                            <th>Amount (BDT)</th>
+                            <th>Status</th>
+                            <th>Submitted On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="loan : ${applications}">
+                            <td th:text="${loan.id}">LN-1001</td>
+                            <td th:text="${loan.loanType}">Home Loan</td>
+                            <td th:text="${#numbers.formatDecimal(loan.amount, 0, 'COMMA', 2, 'POINT')}">50,000.00</td>
+                            
+                               <td th:text="${loan.status}">LN-1001</td>
+                            <td th:text="${loan.submittedDate}">03 Nov 2025</td>
+                            <td class="d-flex flex-column flex-md-row gap-1">
+                                <a th:href="@{/customer/loan/view/{id}(id=${loan.id})}" 
+                                   class="btn btn-sm btn-outline-primary">
+                                   <i class="bi bi-eye"></i> View
+                                </a>
+                                <a th:href="@{/customer/upload-documents(loanId=${loan.id})}" 
+                                   class="btn btn-sm btn-outline-success">
+                                   <i class="bi bi-upload"></i> Upload Documents
+                                </a>
+                            </td>
+                        </tr>
+                        <tr th:if="${applications.empty}">
+                            <td colspan="6" class="text-center text-muted py-3">No loan applications found.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

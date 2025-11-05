@@ -26,43 +26,43 @@ public class LoanController {
     @GetMapping("/apply-loan")
     public String showApplyLoanForm(Model model) {
         model.addAttribute("loanForm", new LoanForm());
-        model.addAttribute("content", "user/apply-loan"); // Thymeleaf fragment
+        model.addAttribute("content", "user/loan-form"); // Thymeleaf fragment
         return "user-layout";
     }
     @Autowired UserService userService;
-    @PostMapping("/apply-loan")
-    public String submitLoanForm(@Valid @ModelAttribute("loanForm") LoanForm loanForm,
-                                 BindingResult result, Model model,Principal principal) {
-
-        if (result.hasErrors()) {
-        	 model.addAttribute("content", "user/apply-loan"); // Thymeleaf fragment
-             return "user-layout";
-        }
-        String username = principal.getName();
-        User user = userService.findByUsername(username);
-
-        // Map DTO to Entity
-        LoanApplication loan = new LoanApplication();
-        loan.setFullName(loanForm.getFullName());
-        loan.setNid(loanForm.getNid());
-        loan.setEmail(loanForm.getEmail());
-        loan.setMobile(loanForm.getMobile());
-        loan.setDob(loanForm.getDob());
-        loan.setGender(loanForm.getGender());
-        loan.setEmploymentType(loanForm.getEmploymentType());
-        loan.setOrganization(loanForm.getOrganization());
-        loan.setIncome(loanForm.getIncome());
-        loan.setLoanType(loanForm.getLoanType());
-        loan.setPurpose(loanForm.getPurpose());
-        loan.setAmount(loanForm.getAmount());
-        loan.setTenure(loanForm.getTenure());
-        loan.setUser(user);
-        // Save to DB
-        loanApplicationRepository.save(loan);
-
-        // Redirect to document upload page
-        return "redirect:/customer/upload-documents?loanId=" + loan.getId();
-    }
+//    @PostMapping("/apply-loan")
+//    public String submitLoanForm(@Valid @ModelAttribute("loanForm") LoanForm loanForm,
+//                                 BindingResult result, Model model,Principal principal) {
+//
+//        if (result.hasErrors()) {
+//        	 model.addAttribute("content", "user/apply-loan"); // Thymeleaf fragment
+//             return "user-layout";
+//        }
+//        String username = principal.getName();
+//        User user = userService.findByUsername(username);
+//
+//        // Map DTO to Entity
+//        LoanApplication loan = new LoanApplication();
+//        loan.setFullName(loanForm.getFullName());
+//        loan.setNid(loanForm.getNid());
+//        loan.setEmail(loanForm.getEmail());
+//        loan.setMobile(loanForm.getMobile());
+//        loan.setDob(loanForm.getDob());
+//        loan.setGender(loanForm.getGender());
+//        loan.setEmploymentType(loanForm.getEmploymentType());
+//        loan.setOrganization(loanForm.getOrganization());
+//        loan.setIncome(loanForm.getIncome());
+//        loan.setLoanType(loanForm.getLoanType());
+//        loan.setPurpose(loanForm.getPurpose());
+//        loan.setAmount(loanForm.getAmount());
+//        loan.setTenure(loanForm.getTenure());
+//        loan.setUser(user);
+//        // Save to DB
+//        loanApplicationRepository.save(loan);
+//
+//        // Redirect to document upload page
+//        return "redirect:/customer/upload-documents?loanId=" + loan.getId();
+//    }
    
 
 }

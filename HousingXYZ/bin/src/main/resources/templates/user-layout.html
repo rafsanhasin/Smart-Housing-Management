@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🏦 Smart LOS - Customer Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f6f8;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-wrapper {
+      display: flex;
+      flex-grow: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    #sidebar {
+      width: 240px;
+      background: linear-gradient(180deg, #00695c, #004d40);
+      color: #fff;
+      flex-shrink: 0;
+      overflow-y: auto;
+      transition: all 0.3s ease;
+    }
+    #sidebar .nav-link {
+      color: #e0e0e0;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+    #sidebar .nav-link.active, #sidebar .nav-link:hover {
+      background-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    /* CONTENT */
+    .content-area {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      background-color: #f9fafb;
+      min-height: 0;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #004d40;
+      color: #bdbdbd;
+      text-align: center;
+      padding: 0.6rem;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+      #sidebar {
+        position: fixed;
+        top: 56px;
+        left: -240px;
+        height: calc(100vh - 56px);
+        z-index: 1050;
+      }
+      #sidebar.show {
+        left: 0;
+      }
+      .content-area {
+        padding: 1rem;
+      }
+    }
+
+    /* Scrollbar fix for sidebar */
+    #sidebar::-webkit-scrollbar {
+      width: 6px;
+    }
+    #sidebar::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success sticky-top">
+    <div class="container-fluid">
+      <button class="btn btn-outline-light me-2 d-lg-none" id="mobileSidebarToggle">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <a class="navbar-brand" href="/" th:text="${@environment.getProperty('app.company.name')}">🏦 Smart LOS</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="topNav">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="profileMenu" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle"></i> My Account
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Profile Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                  <i class="bi bi-box-arrow-right"></i> Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
+    <!-- SIDEBAR -->
+    <nav id="sidebar" class="p-3">
+      <h5 class="text-white mb-3"><i class="bi bi-grid-1x2-fill"></i> Dashboard</h5>
+      <ul class="nav flex-column">
+        <li><a class="nav-link active" th:href="@{/dashboard}"><i class="bi bi-speedometer2"></i> Home</a></li>
+        <li><a class="nav-link" th:href="@{/customer/apply-loan}"><i class="bi bi-file-earmark-plus"></i> Apply for Loan</a></li>
+        <li><a class="nav-link" th:href="@{/dashboard}"><i class="bi bi-list-task"></i> My Applications</a></li>
+        <li><a class="nav-link" th:href="@{/customer/documents}"><i class="bi bi-upload"></i> Upload Documents</a></li>
+        <li><a class="nav-link" th:href="@{/customer/status}"><i class="bi bi-bar-chart-line"></i> Application Status</a></li>
+        <li><a class="nav-link" th:href="@{/customer/support}"><i class="bi bi-chat-dots"></i> Support</a></li>
+      </ul>
+    </nav>
+
+    <!-- CONTENT -->
+    <main class="content-area flex-grow-1">
+      <div th:replace="~{${content}}"></div>
+    </main>
+  </div>
+
+  <!-- LOGOUT MODAL -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title">Confirm Logout</h5>
+          <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">Are you sure you want to logout?</div>
+        <div class="modal-footer justify-content-center">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">❌ Cancel</button>
+          <a th:href="@{/logout}" class="btn btn-danger">✅ Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 Smart LOS | BHBFC-ICT(Operation)
+  </footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const mobileToggle = document.getElementById('mobileSidebarToggle');
+
+    mobileToggle.addEventListener('click', () => sidebar.classList.toggle('show'));
+
+    // Click outside sidebar to close (mobile)
+    document.addEventListener('click', (e) => {
+      if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target)) {
+        sidebar.classList.remove('show');
+      }
+    });
+  </script>
+</body>
+</html>

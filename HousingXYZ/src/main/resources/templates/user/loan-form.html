@@ -1,0 +1,531 @@
+<!-- file: fragments/apply-loan.html -->
+<div th:fragment="applyLoanForm">
+    <div class="loan-card mx-auto col-lg-8">
+        <h4><i class="bi bi-file-earmark-plus"></i> Loan Application Form</h4>
+
+        <form th:action="@{/customer/apply-loan}" th:object="${loanForm}" method="post">
+
+            <!-- Applicant Information -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Applicant Information</h5>
+                </div>
+                <div class="card-body row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" name="applicant.fullName" placeholder="Enter name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Full Name in Bangla</label>
+                        <input type="text" class="form-control" name="applicant.fullNameBangla" placeholder="Enter name in Bangla" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Fathers Name</label>
+                        <input type="text" class="form-control" name="applicant.fathersName" placeholder="Enter father name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Fathers Name in Bangla</label>
+                        <input type="text" class="form-control" name="applicant.fathersNameBangla" placeholder="Enter father name in bangla" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Mothers Name</label>
+                        <input type="text" class="form-control" name="applicant.mothersName" placeholder="Enter mother name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Mothers Name in Bangla</label>
+                        <input type="text" class="form-control" name="applicant.mothersBangla" placeholder="Enter mother name in bangla" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Spouse Name</label>
+                        <input type="text" class="form-control" name="applicant.spouseName" placeholder="Enter spouse name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Date of Birth</label>
+                        <input type="date" th:field="*{dob}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Gender</label>
+                        <select th:field="*{gender}" class="form-select" required>
+                            <option value="">Select</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">NID</label>
+                        <input type="text" class="form-control" name="applicant.nid" placeholder="Enter nid" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Mobile</label>
+                        <input type="text" class="form-control" name="applicant.mobile" placeholder="Enter mobile number" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" name="applicant.email" placeholder="Enter email">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Borrower Account No</label>
+                        <input type="text" class="form-control" name="applicant.borrowerACNo" placeholder="Enter Account No" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Designation</label>
+                        <input type="text" class="form-control" name="applicant.designation" placeholder="Enter designation" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Profession</label>
+                        <input type="text" class="form-control" name="applicant.profession" placeholder="Enter profession" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Date of Joining</label>
+                        <input type="date" th:field="*{dateOfJoiningOnJob}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Date of PRL</label>
+                        <input type="date" th:field="*{dateOfJoiningOnJob}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Salary Scale (BDT)</label>
+                        <input type="number" th:field="*{salaryScale}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Basic Salary (BDT)</label>
+                        <input type="number" th:field="*{basicSalary}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">House Rent (BDT)</label>
+                        <input type="number" th:field="*{houseRent}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Total Salary (BDT)</label>
+                        <input type="number" th:field="*{totalSalary}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Salary Deduction (BDT)</label>
+                        <input type="number" th:field="*{salaryDeduction}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Net Salary (BDT)</label>
+                        <input type="number" th:field="*{netSalary}" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Work Address</label>
+                        <textarea class="form-control" name="applicant.workAddress" rows="2" placeholder="Enter work address"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Residential Address</label>
+                        <textarea class="form-control" name="applicant.residentialAddress" rows="2" placeholder="Enter residential address"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Permanent Address</label>
+                        <textarea class="form-control" name="applicant.permanentAddress" rows="2" placeholder="Enter permanent address"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loan Information -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Loan Information</h5>
+                </div>
+                <div class="card-body row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label required">Expected Loan Amount</label>
+                        <input type="number" th:field="*{expectedLoan}" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label required">Tenure (Years)</label>
+                        <input type="number" th:field="*{loanTenure}" class="form-control" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Loan Purpose</label>
+                        <textarea class="form-control" name="applicant.loanPurpose" rows="2" placeholder="Enter loan purpose"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Guarantor Information -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0">Guarantor Information</h5>
+                </div>
+                <div class="card-body row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantor Full Name</label>
+                        <input type="text" class="form-control" name="applicant.guarantorFullName" placeholder="Enter guarantor name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantor Full Name in Bangla</label>
+                        <input type="text" class="form-control" name="applicant.guarantorFullNameBangla" placeholder="Enter guarantor name in Bangla" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantors Father Name</label>
+                        <input type="text" class="form-control" name="applicant.guarantorFathersName" placeholder="Enter guarantors father name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantor Father Name in Bangla</label>
+                        <input type="text" class="form-control" name="applicant.guarantorFathersNameBangla" placeholder="Enter guarantors father name in bangla" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantors Mother Name</label>
+                        <input type="text" class="form-control" name="applicant.guarantorMothersName" placeholder="Enter guarantors mother name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantors Mother Name in Bangla</label>
+                        <input type="text" class="form-control" name="applicant.guarantorMothersBangla" placeholder="Enter guarantors mother name in bangla" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantors NID</label>
+                        <input type="text" class="form-control" name="applicant.guarantorNid" placeholder="Enter guarantor nid" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Guarantors A/C No</label>
+                        <input type="text" class="form-control" name="applicant.guarantorAcNo" placeholder="Enter guarantor a/c number" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Guarantors Present Address</label>
+                        <textarea class="form-control" name="applicant.guarantorPresentAddress" rows="2" placeholder="Enter guarantors present address"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Guarantors Permanent Address</label>
+                        <textarea class="form-control" name="applicant.guarantorPermanentAddress" rows="2" placeholder="Enter guarantors permanent address"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applicant’s Other Loan Information -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Applicant’s Other Loan Information (Optional)</h5>
+                </div>
+                <div class="card-body row g-3">
+                    <!-- Loan Against PF -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Loan Against Provident Fund (PF)</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Loan Against PF Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.loanAgainstPF_sanction_no" placeholder="Enter loan against PF sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Loan Against PF Date</label>
+                            <input type="date" th:field="*{loanAgainstPF_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Loan Against PF Amount</label>
+                            <input type="number" th:field="*{loanAgainstPF_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Loan Against PF Monthly Installment</label>
+                            <input type="number" th:field="*{loanAgainstPF_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Loan Against PF Remaining Amount</label>
+                            <input type="number" th:field="*{loanAgainstPF_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Loan Against PF Current Loan Balance</label>
+                            <input type="number" th:field="*{loanAgainstPF_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- House Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Employee House Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Employee House Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.employeeHouseLoan_sanction_no" placeholder="Enter house loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Employee House Loan Sanction Date</label>
+                            <input type="date" th:field="*{employeeHouseLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Employee House Loan Amount</label>
+                            <input type="number" th:field="*{employeeHouseLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Employee House Loan Monthly Installment</label>
+                            <input type="number" th:field="*{employeeHouseLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Employee House Loan Remaining Amount</label>
+                            <input type="number" th:field="*{employeeHouseLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Employee House Loan Balance</label>
+                            <input type="number" th:field="*{employeeHouseLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- General House Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">General House Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">General House Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.generalHouseLoan_sanction_no" placeholder="Enter general house loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">General House Loan Sanction Date</label>
+                            <input type="date" th:field="*{generalHouseLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">General House Loan Amount</label>
+                            <input type="number" th:field="*{generalHouseLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">General House Loan Monthly Installment</label>
+                            <input type="number" th:field="*{generalHouseLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">General House Loan Remaining Amount</label>
+                            <input type="number" th:field="*{generalHouseLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">General House Loan Balance</label>
+                            <input type="number" th:field="*{generalHouseLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Computer Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Computer House Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Computer Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.computerLoan_sanction_no" placeholder="Enter computer loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Computer Loan Sanction Date</label>
+                            <input type="date" th:field="*{computerLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Computer Loan Amount</label>
+                            <input type="number" th:field="*{computerLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Computer Loan Monthly Installment</label>
+                            <input type="number" th:field="*{computerLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Computer Loan Remaining Amount</label>
+                            <input type="number" th:field="*{computerLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Computer Loan Balance</label>
+                            <input type="number" th:field="*{computerLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Motorcar Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Motorcar Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Motorcar Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.motorcarLoan_sanction_no" placeholder="Enter motorcar loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcar Loan Sanction Date</label>
+                            <input type="date" th:field="*{motorcarLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcar Loan Amount</label>
+                            <input type="number" th:field="*{motorcarLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcar Loan Monthly Installment</label>
+                            <input type="number" th:field="*{motorcarLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcar Loan Remaining Amount</label>
+                            <input type="number" th:field="*{motorcarLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcar Loan Balance</label>
+                            <input type="number" th:field="*{motorcarLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Motorcycle Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Motorcycle Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Motorcycle Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.motorcycleLoan_sanction_no" placeholder="Enter motorcycle loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcycle Loan Sanction Date</label>
+                            <input type="date" th:field="*{motorcycleLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcycle Loan Amount</label>
+                            <input type="number" th:field="*{motorcycleLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcycle Loan Monthly Installment</label>
+                            <input type="number" th:field="*{motorcycleLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcycle Loan Remaining Amount</label>
+                            <input type="number" th:field="*{motorcycleLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Motorcycle Loan Balance</label>
+                            <input type="number" th:field="*{motorcycleLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Sewing Machine Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Sewing Machine Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Sewing Machine Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.sewingMachineLoan_sanction_no" placeholder="Enter sewing machine loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Sewing Machine Loan Sanction Date</label>
+                            <input type="date" th:field="*{sewingMachineLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Sewing Machine Loan Amount</label>
+                            <input type="number" th:field="*{sewingMachineLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Sewing Machine Loan Monthly Installment</label>
+                            <input type="number" th:field="*{sewingMachineLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Sewing Machine Loan Remaining Amount</label>
+                            <input type="number" th:field="*{sewingMachineLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Sewing Machine Loan Balance</label>
+                            <input type="number" th:field="*{sewingMachineLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Consumer Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Consumer Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Consumer Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.consumerLoan_sanction_no" placeholder="Enter consumer loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Consumer Loan Sanction Date</label>
+                            <input type="date" th:field="*{consumerLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Consumer Loan Amount</label>
+                            <input type="number" th:field="*{consumerLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Consumer Loan Monthly Installment</label>
+                            <input type="number" th:field="*{consumerLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Consumer Loan Remaining Amount</label>
+                            <input type="number" th:field="*{consumerLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Consumer Loan Balance</label>
+                            <input type="number" th:field="*{consumerLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Other Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Other Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Other Loan Sanction No</label>
+                            <input type="text" class="form-control" name="applicant.otherLoan_sanction_no" placeholder="Enter other loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Loan Sanction Date</label>
+                            <input type="date" th:field="*{otherLoan_date}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Loan Amount</label>
+                            <input type="number" th:field="*{otherLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Loan Monthly Installment</label>
+                            <input type="number" th:field="*{otherLoan_monthly_installment}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Loan Remaining Amount</label>
+                            <input type="number" th:field="*{otherLoan_remaining_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Loan Balance</label>
+                            <input type="number" th:field="*{otherLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Other Institute Loan -->
+                    <div class="card mb-3 border-0 border-start border-4 border-primary">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0 text-primary">Other Institute Loan</h6>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Other Institute Name</label>
+                            <input type="text" class="form-control" name="applicant.otherExLoan_institute" placeholder="Enter other loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Other Institute Loan Status</label>
+                            <input type="text" class="form-control" name="applicant.otherExLoan_status" placeholder="Enter other loan sanction no" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Institute Loan Amount</label>
+                            <input type="number" th:field="*{otherExLoan_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Institute Installment Amount</label>
+                            <input type="number" th:field="*{otherExLoan_installment_amount}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Institute Current Loan Balance</label>
+                            <input type="number" th:field="*{otherExLoan_current_loan_balance}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label required">Other Institute Loan Classification Status</label>
+                            <input type="number" th:field="*{otherExLoan_classification_status}" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary px-5">Submit Application</button>
+            </div>
+
+        </form>
+    </div>
+</div>
