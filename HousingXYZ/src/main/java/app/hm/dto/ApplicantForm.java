@@ -1,139 +1,46 @@
-package app.hm.entity;
+package app.hm.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "applicant") // You can change the table name as needed
-public class Applicant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long applicantId;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+public class ApplicantForm {
 
-    @Column(nullable = false)
+    private Long id;
     private String fullName;
-
-    @Column(nullable = false)
     private String fullNameBangla;
-
-    @Column(nullable = false)
     private String fathersName;
-
-    @Column(nullable = false)
     private String fathersNameBangla;
-
-    @Column(nullable = false)
     private String mothersName;
-
-    @Column(nullable = false)
     private String mothersBangla;
-
-    @Column(nullable = true) // nullable = true is default, but explicit for clarity
     private String spouseName;
-
-    @Column(nullable = false)
     private String profession;
-
-    @Column(nullable = false)
     private String designation;
-
-    @Column(nullable = false)
     private String dateOfJoiningOnJob;
-
-    @Column(nullable = false)
     private LocalDate dateOfPRL;
-
-    @Column(nullable = false)
     private String borrowerACNo;
-
-    @Column(nullable = false, unique = true)
     private String nid;
-
-    @Column(nullable = false)
     private LocalDate dob;
-
-    @Column(nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String gender;
-
-    @Column(nullable = false)
     private Double salaryScale;
-
-    @Column(nullable = false)
     private Double basicSalary;
-
-    @Column(nullable = false)
     private Double houseRent;
-
-    @Column(nullable = false)
     private Double totalSalary;
-
-    @Column(nullable = false)
     private Double salaryDeduction;
-
-    @Column(nullable = false)
     private Double netSalary;
-
-    @Column(nullable = false)
     private String workAddress;
-
-    @Column(nullable = false)
     private String residentialAddress;
-
-    @Column(nullable = false)
     private String permanentAddress;
-
-    @Column(nullable = false)
     private String mobile;
 
-//    public Applicant(Long id, String fullName, String fullNameBangla, String fathersName, String fathersNameBangla,
-//                    String mothersName, String mothersBangla, String spouseName, String profession, String designation,
-//                    String dateOfJoiningOnJob, LocalDate dateOfPRL, String borrowerACNo, String nid, LocalDate dob,
-//                    String email, String gender,
-//                    Double salaryScale, Double basicSalary, Double houseRent, Double totalSalary, Double salaryDeduction,
-//                    Double netSalary, String workAddress, String residentialAddress, String permanentAddress, String mobile) {
-//        this.id = id;
-//        this.fullName = fullName;
-//        this.fullNameBangla = fullNameBangla;
-//        this.fathersName = fathersName;
-//        this.fathersNameBangla = fathersNameBangla;
-//        this.mothersName = mothersName;
-//        this.mothersBangla = mothersBangla;
-//        this.spouseName = spouseName;
-//        this.profession = profession;
-//        this.designation = designation;
-//        this.dateOfJoiningOnJob = dateOfJoiningOnJob;
-//        this.dateOfPRL = dateOfPRL;
-//        this.borrowerACNo = borrowerACNo;
-//        this.nid = nid;
-//        this.dob = dob;
-//        this.email = email;
-//        this.gender = gender;
-//        this.salaryScale = salaryScale;
-//        this.basicSalary = basicSalary;
-//        this.houseRent = houseRent;
-//        this.totalSalary = totalSalary;
-//        this.salaryDeduction = salaryDeduction;
-//        this.netSalary = netSalary;
-//        this.workAddress = workAddress;
-//        this.residentialAddress = residentialAddress;
-//        this.permanentAddress = permanentAddress;
-//        this.mobile = mobile;
-//    }
-
     // Getters and Setters
+
     public Long getId() {
-        return applicantId;
+        return id;
     }
 
-    public void setId(Long applicantId) {
-        this.applicantId = applicantId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFullName() {
@@ -342,17 +249,5 @@ public class Applicant {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Applicant{" +
-                "id=" + applicantId +
-                ", fullName='" + fullName + '\'' +
-                ", nid='" + nid + '\'' +
-                ", email='" + email + '\'' +
-                ", mobile='" + mobile + '\'' +
-                '}';
     }
 }

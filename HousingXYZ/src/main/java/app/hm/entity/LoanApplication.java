@@ -33,10 +33,11 @@ public class LoanApplication {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Applicant (Required)
+
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "applicant_id", referencedColumnName = "applicantId", nullable = false)
     private Applicant applicant;
+
 
     // Guarantor (Required)
     @OneToOne(optional = false, cascade = CascadeType.ALL)
